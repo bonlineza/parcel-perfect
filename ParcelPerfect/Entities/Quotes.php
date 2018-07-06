@@ -1,5 +1,5 @@
 <?php
-namespace ParcelPerfect;
+namespace ParcelPerfect\Entities;
 
 
 class Quotes

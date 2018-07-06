@@ -5,28 +5,28 @@ use ParcelPerfect\Entities\QuotePlace;
 use ParcelPerfect\ParcelPerfectBase;
 use ParcelPerfect\ParcelPerfectException;
 
-class GetPlacesByPostalCode extends ParcelPerfectBase
+class GetPlacesByName extends ParcelPerfectBase
 {
     /**
-     * @param $code
+     * @param $name
      * @return QuotePlace[]
      */
-    public function getPlacesByPostalCode($code)
+    public function getPlacesByName($name)
     {
         $params = [
-            "postcode" => $code
+            "name" => $name
         ];
 
         $places = [];
 
-        $result = $this->client->__soapCall("Quote_getPlacesByPostcode", array($this->token, $params));
+        $result = $this->client->__soapCall("Quote_getPlacesByName", array($this->token, $params));
         if ($result->errorcode != 0) {
             new ParcelPerfectException($result->errormessage, $result->errorcode);
         } else {
             foreach ($result->results as $place) {
                 $places[] = new QuotePlace($place->town, $place->place, $place->pcode);
             }
+            return $places;
         }
-        return $places;
     }
 }

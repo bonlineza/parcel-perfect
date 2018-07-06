@@ -3,8 +3,9 @@
 use ParcelPerfect\Entities\PackageContents;
 use ParcelPerfect\Entities\PackageDetails;
 use ParcelPerfect\Entities\PackageAddress;
-use ParcelPerfect\Entities\GetQuotes;
-use ParcelPerfect\GetPlacesByPostalCode;
+use ParcelPerfect\Requests\GetQuotes;
+use ParcelPerfect\Requests\GetPlacesByName;
+use ParcelPerfect\Requests\GetPlacesByPostalCode;
 
 require_once 'vendor/autoload.php';
 
@@ -13,9 +14,11 @@ function dd($var) {
     die();
 }
 
-$requestQuote = new GetPlacesByPostalCode('bonline@ecom.co.za', 'bonlineEcom');
-$pickupPlace = $requestQuote->getQuotesByPostalCode('7600')[0];
-$dropoffPlace = $requestQuote->getQuotesByPostalCode('2000')[0];
+$getByPostalCode = new GetPlacesByPostalCode('bonline@ecom.co.za', 'bonlineEcom');
+$dropoffPlace = $getByPostalCode->getPlacesByPostalCode('2000')[0];
+
+$getPlacesByName = new GetPlacesByName('bonline@ecom.co.za', 'bonlineEcom');
+$pickupPlace = $getPlacesByName->getPlacesByName('Stellenbosch')[0];
 
 $pickupLocation = new PackageAddress();
 $pickupLocation

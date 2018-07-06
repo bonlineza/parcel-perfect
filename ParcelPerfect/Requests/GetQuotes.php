@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bonline
- * Date: 2018/07/04
- * Time: 5:47 PM
- */
+namespace ParcelPerfect\Requests;
 
-namespace ParcelPerfect\Entities;
-
-
+use ParcelPerfect\Entities\PackageContents;
+use ParcelPerfect\Entities\PackageDetails;
+use ParcelPerfect\Entities\QuoteRate;
 use ParcelPerfect\ParcelPerfectBase;
-use ParcelPerfect\Quotes;
+use ParcelPerfect\Entities\Quotes;
+use ParcelPerfect\ParcelPerfectException;
 
 class GetQuotes extends ParcelPerfectBase
 {
@@ -44,12 +40,18 @@ class GetQuotes extends ParcelPerfectBase
     }
 
 
-
+    /**
+     * @return Quotes
+     * @throws ParcelPerfectException
+     */
     public function requestQuotes () {
         $result = $this->client->__soapCall("Quote_requestQuote", array($this->token, $this->buildRequest()));
         if($result->errorcode != 0){
-            echo $result->errormessage."<br>";
+            new ParcelPerfectException($result->errormessage, $result->errorcode);
         }else{
+            if(!$result->results[0]) {
+                throw new ParcelPerfectException('Parcel Perfect returned no results', 400);
+            }
             $rates = [];
             foreach ($result->results[0]->rates as $rate) {
                 $rates[] = (new QuoteRate())
@@ -70,7 +72,6 @@ class GetQuotes extends ParcelPerfectBase
                     ->setCustomsVat($rate->customsvat)
                     ->setDueDate($rate->duedate)
                     ->setDueTime($rate->duetime);
-
             }
             return new Quotes($result->results[0]->quoteno, $rates);
         }

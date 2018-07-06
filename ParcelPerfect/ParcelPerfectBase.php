@@ -57,4 +57,12 @@ class ParcelPerfectBase
             $this->token = $result->results[0]->token_id;
         }
     }
+
+    public function __destruct()
+    {
+        $params = array(
+            "token_id" => $this->token
+        );
+        $this->client->__soapCall("Auth_expireToken", $params);
+    }
 }
