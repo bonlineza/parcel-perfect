@@ -3,6 +3,8 @@
 use ParcelPerfect\Entities\PackageContents;
 use ParcelPerfect\Entities\PackageDetails;
 use ParcelPerfect\Entities\PackageAddress;
+use ParcelPerfect\Entities\QuoteCollection;
+use ParcelPerfect\Requests\AcceptQuote;
 use ParcelPerfect\Requests\GetQuotes;
 use ParcelPerfect\Requests\GetPlacesByName;
 use ParcelPerfect\Requests\GetPlacesByPostalCode;
@@ -13,6 +15,7 @@ function dd($var) {
     var_dump($var);
     die();
 }
+
 
 $getByPostalCode = new GetPlacesByPostalCode('bonline@ecom.co.za', 'bonlineEcom');
 $dropoffPlace = $getByPostalCode->getPlacesByPostalCode('2000')[0];
@@ -47,5 +50,11 @@ $itemContents = (new PackageContents())
     ->setPieces(1);
 
 $deliveryRequest = new GetQuotes('bonline@ecom.co.za', 'bonlineEcom');
-dd($deliveryRequest->setContents([$itemContents])->setDetails($pickupDetails)->requestQuotes());
+$quotes = $deliveryRequest->setContents([$itemContents])->setDetails($pickupDetails)->requestQuotes();
 
+$quote = (new QuoteCollection())->setQuoteno($quotes->getQuoteNumber());
+$acceptQuote = (new AcceptQuote('bonline@ecom.co.za', 'bonlineEcom'))
+    ->setQuote($quote)
+    ->accept();
+
+dd($acceptQuote);

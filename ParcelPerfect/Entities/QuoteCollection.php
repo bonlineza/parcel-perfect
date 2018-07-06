@@ -83,4 +83,59 @@ class QuoteCollection
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getQuoteno()
+    {
+        return $this->quoteno;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWaybillno()
+    {
+        return $this->waybillno;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStarttime()
+    {
+        return $this->starttime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndtime()
+    {
+        return $this->endtime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrintWaybill()
+    {
+        return $this->printWaybill;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrintLabels()
+    {
+        return $this->printLabels;
+    }
 }

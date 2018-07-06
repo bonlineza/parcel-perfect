@@ -16,4 +16,22 @@ class Quotes
         $this->quoteNumber = $quoteNumber;
         $this->rates = $rates;
     }
+
+    /**
+     * @return string
+     */
+    public function getQuoteNumber()
+    {
+        return $this->quoteNumber;
+    }
+
+    /**
+     * @return QuoteRate[]
+     */
+    public function getRates()
+    {
+        return $this->rates;
+    }
+
+
 }
