@@ -45,6 +45,7 @@ class GetQuotes extends ParcelPerfectBase
      * @throws ParcelPerfectException
      */
     public function requestQuotes () {
+
         $result = $this->client->__soapCall("Quote_requestQuote", array($this->token, $this->buildRequest()));
         if($result->errorcode != 0){
             new ParcelPerfectException($result->errormessage, $result->errorcode);
@@ -73,6 +74,7 @@ class GetQuotes extends ParcelPerfectBase
                     ->setDueDate($rate->duedate)
                     ->setDueTime($rate->duetime);
             }
+
             return new Quotes($result->results[0]->quoteno, $rates);
         }
     }
@@ -142,5 +144,21 @@ class GetQuotes extends ParcelPerfectBase
             $requestQuote['contents'][$key]['actmass'] = $item->getActmass();
         }
         return $requestQuote;
+    }
+
+    /**
+     * @return PackageDetails
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    /**
+     * @return PackageContents[]
+     */
+    public function getContents()
+    {
+        return $this->contents;
     }
 }
