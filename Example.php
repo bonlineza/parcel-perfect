@@ -18,28 +18,24 @@ function dd($var) {
 
 
 $getByPostalCode = new GetPlacesByPostalCode('bonline@ecom.co.za', 'bonlineEcom');
-$dropoffPlace = $getByPostalCode->getPlacesByPostalCode('7600')[0];
+$dropoffPlace = $getByPostalCode->getPlacesByPostalCode('2000')[0];
 
-$getPlacesByName = new GetPlacesByPostalCode('bonline@ecom.co.za', 'bonlineEcom');
-$pickupPlace = $getPlacesByName->getPlacesByPostalCode('2000')[0];
+$getPlacesByName = new GetPlacesByName('bonline@ecom.co.za', 'bonlineEcom');
+$pickupPlace = $getPlacesByName->getPlacesByName('Stellenbosch')[0];
 
 $pickupLocation = new PackageAddress();
 $pickupLocation
     ->setPlaceId($pickupPlace->getPlaceId())
     ->setAddressLineOne('87 Ryneveldt')
     ->setTown('Stellenbosch')
-    ->setPostalCode($pickupPlace->getPcode())
-    ->setContactName('test')
-    ->setPhoneNumber("0848300757");
+    ->setPostalCode($pickupPlace->getPcode());
 
 $dropoffLocation = new PackageAddress();
 $dropoffLocation
     ->setPlaceId($dropoffPlace->getPlaceId())
     ->setAddressLineOne('56 King George St')
     ->setTown('Johannesburg')
-    ->setPostalCode($dropoffPlace->getPcode())
-    ->setContactName('test')
-    ->setPhoneNumber("0848300757");
+    ->setPostalCode($dropoffPlace->getPcode());
 
 $pickupDetails = new PackageDetails();
 $pickupDetails->setPickupLocation($pickupLocation)->setDropoffLocation($dropoffLocation);
@@ -56,10 +52,9 @@ $itemContents = (new PackageContents())
 $deliveryRequest = new GetQuotes('bonline@ecom.co.za', 'bonlineEcom');
 $quotes = $deliveryRequest->setContents([$itemContents])->setDetails($pickupDetails)->requestQuotes();
 
-$quote = (new QuoteCollection())->setQuoteno($quotes->getQuoteNumber())->setPrintWaybill(1)->setPrintWaybill(1)->setSpecins("TEST INSTRUCTIONS");
+$quote = (new QuoteCollection())->setQuoteno($quotes->getQuoteNumber());
 $acceptQuote = (new AcceptQuote('bonline@ecom.co.za', 'bonlineEcom'))
     ->setQuote($quote)
     ->accept();
 
-var_dump($acceptQuote->getWaybillBase64()); die();
-file_put_contents("waybill-" . time() .".pdf", base64_decode($acceptQuote->getWaybillBase64()));
+dd($acceptQuote);

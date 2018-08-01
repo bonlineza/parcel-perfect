@@ -6,8 +6,5 @@
         "psr-4": {
             "ParcelPerfect\\" : "ParcelPerfect/"
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5"
     }
 }

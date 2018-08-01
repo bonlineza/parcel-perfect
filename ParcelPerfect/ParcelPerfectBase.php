@@ -17,13 +17,13 @@ class ParcelPerfectBase
 
     public function __construct($username, $password)
     {
-        ini_set('soap.wsdl_cache_enabled', WSDL_CACHE_NONE);
-        ini_set('soap.wsdl_cache_ttl', 0);
+        ini_set('soap.wsdl_cache_enabled', 0);
+        ini_set('soap.wsdl_cache_ttl', 900);
         ini_set('default_socket_timeout', 15);
 
         $this->username = $username;
         $this->password = $password;
-        $this->client = new SoapClient(self::API_URL, ['trace' => true]);
+        $this->client = new SoapClient(self::API_URL);
         $this->getSalt();
         $this->getToken();
     }
@@ -60,9 +60,9 @@ class ParcelPerfectBase
 
     public function __destruct()
     {
-//        $params = array(
-//            "token_id" => $this->token
-//        );
-//        $this->client->__soapCall("Auth_expireToken", $params);
+        $params = array(
+            "token_id" => $this->token
+        );
+        $this->client->__soapCall("Auth_expireToken", $params);
     }
 }
