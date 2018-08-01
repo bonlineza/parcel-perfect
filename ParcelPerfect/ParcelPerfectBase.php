@@ -7,23 +7,22 @@ use SoapClient;
 class ParcelPerfectBase
 {
 
-    const API_URL = "http://adpdemo.pperfect.com/ecomService/v10/Soap/index.php?wsdl";
-
+    protected $api_url;
     protected $client;
     private $username;
     private $password;
     private $salt;
     protected $token;
 
-    public function __construct($username, $password)
+    public function __construct($config)
     {
         ini_set('soap.wsdl_cache_enabled', 0);
         ini_set('soap.wsdl_cache_ttl', 900);
         ini_set('default_socket_timeout', 15);
 
-        $this->username = $username;
-        $this->password = $password;
-        $this->client = new SoapClient(self::API_URL);
+        $this->username = $config['username'];
+        $this->password = $config['password'];
+        $this->client = new SoapClient($config['api_url']);
         $this->getSalt();
         $this->getToken();
     }

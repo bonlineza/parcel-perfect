@@ -16,11 +16,16 @@ function dd($var) {
     die();
 }
 
+$config = [
+    'username' => 'bonline@ecom.co.za',
+    'password' => 'bonlineEcom',
+    'api_url'  => 'http://adpdemo.pperfect.com/ecomService/v15/Soap/index.php?wsdl'
+];
 
-$getByPostalCode = new GetPlacesByPostalCode('bonline@ecom.co.za', 'bonlineEcom');
+$getByPostalCode = new GetPlacesByPostalCode($config);
 $dropoffPlace = $getByPostalCode->getPlacesByPostalCode('2000')[0];
 
-$getPlacesByName = new GetPlacesByName('bonline@ecom.co.za', 'bonlineEcom');
+$getPlacesByName = new GetPlacesByName($config);
 $pickupPlace = $getPlacesByName->getPlacesByName('Stellenbosch')[0];
 
 $pickupLocation = new PackageAddress();
@@ -49,11 +54,11 @@ $itemContents = (new PackageContents())
     ->setItemNumber(1)
     ->setPieces(1);
 
-$deliveryRequest = new GetQuotes('bonline@ecom.co.za', 'bonlineEcom');
+$deliveryRequest = new GetQuotes($config);
 $quotes = $deliveryRequest->setContents([$itemContents])->setDetails($pickupDetails)->requestQuotes();
 
-$quote = (new QuoteCollection())->setQuoteno($quotes->getQuoteNumber());
-$acceptQuote = (new AcceptQuote('bonline@ecom.co.za', 'bonlineEcom'))
+$quote = (new QuoteCollection())->setQuoteno($quotes->getQuoteNumber())->setPrintWaybill(1)->setSpecins("test instructions");
+$acceptQuote = (new AcceptQuote($config))
     ->setQuote($quote)
     ->accept();
 

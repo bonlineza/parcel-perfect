@@ -12,6 +12,7 @@ class QuoteCollection
     protected $notes;
     protected $printWaybill;
     protected $printLabels;
+    protected $specins;
 
     /**
      * @param mixed $quoteno
@@ -137,5 +138,23 @@ class QuoteCollection
     public function getPrintLabels()
     {
         return $this->printLabels;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSpecins()
+    {
+        return $this->specins;
+    }
+
+    /**
+     * @param mixed $specins
+     * @return QuoteCollection
+     */
+    public function setSpecins($specins)
+    {
+        $this->specins = $specins;
+        return $this;
     }
 }

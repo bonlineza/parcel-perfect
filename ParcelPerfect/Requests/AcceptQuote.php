@@ -48,6 +48,7 @@ class AcceptQuote extends ParcelPerfectBase
         $quote['notes'] = $this->quote->getNotes();
         $quote['printWaybill'] = $this->quote->getPrintWaybill();
         $quote['printLabels'] = $this->quote->getPrintLabels();
+        $quote['specins'] = $this->quote->getSpecins();
 
         return $quote;
     }
