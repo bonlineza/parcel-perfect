@@ -25,12 +25,11 @@ class GetSingleWaybill extends ParcelPerfectBase
         $result = $this->client->__soapCall("Waybill_getSingleWaybill", [$this->token, $this->buildRequest()]);
 
         if($result->errorcode != 0){
-            new ParcelPerfectException($result->errormessage, $result->errorcode);
-        }else{
+            throw new ParcelPerfectException($result->errormessage, $result->errorcode);
+        } else {
             if(!$result->results[0]) {
                 throw new ParcelPerfectException('Parcel Perfect returned no results', 400);
-            }
-            else return $result->results[0];
+            } else return $result->results[0];
         }
     }
 
