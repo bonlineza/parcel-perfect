@@ -12,7 +12,7 @@ class ParcelPerfectBase
     private $username;
     private $password;
     private $salt;
-    protected $token;
+    private $token;
 
     public function __construct($config)
     {
@@ -22,7 +22,7 @@ class ParcelPerfectBase
 
         $this->username = $config['username'];
         $this->password = $config['password'];
-        $this->client = new SoapClient($config['api_url']);
+        $this->client = new SoapClient($config['api_url'], ['trace' => 1]);
         $this->getSalt();
         $this->getToken();
     }
@@ -49,7 +49,6 @@ class ParcelPerfectBase
             "password" => $this->password
         );
         $result = $this->client->__soapCall("Auth_getSecureToken", array($params));
-
         if ($result->errorcode != 0) {
             echo $result->errormessage . "<br>";
         } else {

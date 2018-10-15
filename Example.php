@@ -8,6 +8,7 @@ use ParcelPerfect\Requests\AcceptQuote;
 use ParcelPerfect\Requests\GetQuotes;
 use ParcelPerfect\Requests\GetPlacesByName;
 use ParcelPerfect\Requests\GetPlacesByPostalCode;
+use ParcelPerfect\Requests\GetSingleWaybill;
 
 require_once 'vendor/autoload.php';
 
@@ -62,4 +63,8 @@ $acceptQuote = (new AcceptQuote($config))
     ->setQuote($quote)
     ->accept();
 
-dd($acceptQuote);
+$waybillNumber = $acceptQuote->getWaybillNumber();
+
+$getSingleWaybill = new GetSingleWaybill($config);
+$waybill = $getSingleWaybill->setWaybillNumber($waybillNumber)->getWaybill();
+dd($waybill);

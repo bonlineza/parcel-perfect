@@ -47,8 +47,8 @@ class GetQuotes extends ParcelPerfectBase
     public function requestQuotes () {
         $result = $this->client->__soapCall("Quote_requestQuote", array($this->token, $this->buildRequest()));
         if($result->errorcode != 0){
-            new ParcelPerfectException($result->errormessage, $result->errorcode);
-        }else{
+            throw new ParcelPerfectException($result->errormessage, $result->errorcode);
+        } else {
             if(!$result->results[0]) {
                 throw new ParcelPerfectException('Parcel Perfect returned no results', 400);
             }

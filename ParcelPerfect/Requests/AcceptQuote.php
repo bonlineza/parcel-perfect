@@ -21,8 +21,8 @@ class AcceptQuote extends ParcelPerfectBase
     public function accept () {
         $result = $this->client->__soapCall("Collection_quoteToCollection", array($this->token, $this->buildRequest()));
         if($result->errorcode != 0){
-            new ParcelPerfectException($result->errormessage, $result->errorcode);
-        }else{
+            throw new ParcelPerfectException($result->errormessage, $result->errorcode);
+        } else {
             if(!$result->results[0]) {
                 throw new ParcelPerfectException('Parcel Perfect returned no results', 400);
             }
