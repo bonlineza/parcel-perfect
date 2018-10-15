@@ -12,7 +12,7 @@ class ParcelPerfectBase
     private $username;
     private $password;
     private $salt;
-    private $token;
+    public $token;
 
     public function __construct($config)
     {
