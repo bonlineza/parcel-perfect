@@ -8,11 +8,11 @@ class ParcelPerfectBase
 {
 
     protected $api_url;
-    public $client;
+    protected $client;
     private $username;
     private $password;
     private $salt;
-    public $token;
+    private $token;
 
     public function __construct($config)
     {
